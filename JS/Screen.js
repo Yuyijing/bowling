@@ -30,8 +30,8 @@ $(document).ready(function() {
 	}
 
 	//滑鼠事件監聽
-	document.addEventListener("mousemove", mouseMoveHandler, false);
-	document.addEventListener("click", mouseClickeHandler, false);
+	canvas.addEventListener("mousemove", mouseMoveHandler, false);
+	canvas.addEventListener("click", mouseClickeHandler, false);
 
 	//BALL
 	function drawBall() {
@@ -90,8 +90,8 @@ $(document).ready(function() {
 		    } else {
 				count++;
 		    }
-		    document.addEventListener("mousemove", mouseMoveHandler, false);
-			document.addEventListener("click", mouseClickeHandler, false);
+		    canvas.addEventListener("mousemove", mouseMoveHandler, false);
+			canvas.addEventListener("click", mouseClickeHandler, false);
 		    score = 0;
 	    }
 	}
@@ -122,8 +122,8 @@ $(document).ready(function() {
 
 	//點擊
 	function mouseClickeHandler(e) {
-		document.removeEventListener("mousemove", mouseMoveHandler, false);
-		document.removeEventListener("click", mouseClickeHandler, false);
+		canvas.removeEventListener("mousemove", mouseMoveHandler, false);
+		canvas.removeEventListener("click", mouseClickeHandler, false);
 		return flag = true;
 	}
 

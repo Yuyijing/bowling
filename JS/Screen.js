@@ -7,19 +7,21 @@ $(document).ready(function() {
 
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
-	var ballradius = 14;
+	var ballradius = 25;
 	var x = canvas.width / 2;
-	var y = canvas.height-30;
-	var dy = -2;
+	var y = canvas.height-60;
+	var dy = -5;
 	var flag = false;
 	var pinWidth = 30;
 	var pinHeight = 30;
-	var pinPadding = 4;
+	var pinPadding = 6;
 	var score = 0;
 	var count = 1;
 
-	// var pin = new Image();
-	// pin.src = "/assets/vendor/images/pin.png";
+	var pin = new Image();
+	var ball = new Image();
+	pin.src = "/assets/vendor/images/pin.png";
+	ball.src = "/assets/vendor/images/ball.png";
 
 	var pins = [];
 	for (var i = 4; i > 0; i--) {
@@ -35,11 +37,12 @@ $(document).ready(function() {
 
 	//BALL
 	function drawBall() {
-		ctx.beginPath();
-	    ctx.arc(x, y, ballradius, 0, Math.PI*2);
-	    ctx.fillStyle = "#0095DD";
-	    ctx.fill();
-	    ctx.closePath();
+		ctx.drawImage(ball, x, y, 50, 50);
+		// ctx.beginPath();
+	 //    ctx.arc(x, y, ballradius, 0, Math.PI*2);
+	 //    ctx.fillStyle = "#0095DD";
+	 //    ctx.fill();
+	 //    ctx.closePath();
 	}
 
 	//PINS
@@ -53,12 +56,12 @@ $(document).ready(function() {
 		            var pinY = ((4 - i) * (pinHeight + pinPadding)) + pinOffsetTop;
 		            pins[i][j].x = pinX;
 		            pins[i][j].y = pinY;
-		            ctx.beginPath();
-		            // ctx.drawImage(pin, pinX, pinY);
-		            ctx.rect(pinX, pinY, 30, 30);
-		            ctx.fillStyle = "#0095DD";
-		            ctx.fill();
-		            ctx.closePath();
+		            // ctx.beginPath();
+		            ctx.drawImage(pin, pinX, pinY, 40, 70);
+		            // ctx.rect(pinX, pinY, 30, 30);
+		            // ctx.fillStyle = "#0095DD";
+		            // ctx.fill();
+		            // ctx.closePath();
 				}
 			}
 			pinOffsetLeft += 15;
@@ -67,8 +70,8 @@ $(document).ready(function() {
 
 	function draw() {
 	    ctx.clearRect(0, 0, canvas.width, canvas.height);
-	    drawBall();
 	    drawPins();
+	    drawBall();
 	    if (flag) {
 	    	y += dy;
 	    	collisionDetection();

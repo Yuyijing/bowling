@@ -7,12 +7,12 @@ $(document).ready(function() {
 
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
-	var ballradius = 25;
+	var ballLength = 50;
 	var x = canvas.width / 2;
 	var y = canvas.height-60;
 	var dy = -5;
 	var flag = false;
-	var pinWidth = 30;
+	var pinWidth = 40;
 	var pinHeight = 30;
 	var pinPadding = 6;
 	var score = 0;
@@ -37,12 +37,7 @@ $(document).ready(function() {
 
 	//BALL
 	function drawBall() {
-		ctx.drawImage(ball, x, y, 50, 50);
-		// ctx.beginPath();
-	 //    ctx.arc(x, y, ballradius, 0, Math.PI*2);
-	 //    ctx.fillStyle = "#0095DD";
-	 //    ctx.fill();
-	 //    ctx.closePath();
+		ctx.drawImage(ball, x, y, ballLength, ballLength);
 	}
 
 	//PINS
@@ -56,15 +51,10 @@ $(document).ready(function() {
 		            var pinY = ((4 - i) * (pinHeight + pinPadding)) + pinOffsetTop;
 		            pins[i][j].x = pinX;
 		            pins[i][j].y = pinY;
-		            // ctx.beginPath();
 		            ctx.drawImage(pin, pinX, pinY, 40, 70);
-		            // ctx.rect(pinX, pinY, 30, 30);
-		            // ctx.fillStyle = "#0095DD";
-		            // ctx.fill();
-		            // ctx.closePath();
 				}
 			}
-			pinOffsetLeft += 15;
+			pinOffsetLeft += pinWidth/2 + pinPadding/2;
 		}
 	}
 
@@ -82,7 +72,7 @@ $(document).ready(function() {
 	    	flag = false;
 	    	test(score);
 	    	x = canvas.width / 2;
-			y = canvas.height-30;
+			y = canvas.height-60;
 	    	if (score == 10 || count == 2) {
 	    		for (var i = 4; i > 0; i--) {
 					for (var j = 0; j < i; j++) {
@@ -105,13 +95,51 @@ $(document).ready(function() {
 			for (var j = 0; j < i; j++) {
 	            var pin = pins[i][j];
 	            if(pin.status == 1) {
-	                if(x + ballradius/2 > pin.x && x < pin.x + pinWidth + ballradius/2 && y > pin.y && y < pin.y + pinHeight) {
+	                if(x + ballLength > pin.x && x < pin.x + pinWidth && y > pin.y && y < pin.y + pinHeight) {
 	                    pin.status = 0;
 	                    score++;
+	                    if (i < 4) {
+	                     	//左後方pin
+	                     	probabilityDetection(pins[i+1][j], i, j);
+	                     	//右後方pin
+	                     	probabilityDetection(pins[i+1][j+1], i, j);
+	                    }
+	                    if ((j-1) > 0) {
+	                    	//左邊pin
+	                     	probabilityDetection(pins[i][j-1], i, j);
+	                    }
+	                    if ((j+1) < i) {
+	                    	//右邊pin
+	                     	probabilityDetection(pins[i][j+1], i, j);
+	                    }
 	                }
 	            }
 	        }
 	    }
+	}
+
+	//隨機判斷左右及後方pin
+	function probabilityDetection(pin, i, j) {
+		if (pin.status == 1) {
+			pin.status =  Math.round(Math.random());
+			if (pin.status == 0) {
+				score++;
+				if (i < 4) {
+					//左後方pin
+		            return probabilityDetection(pins[i+1][j], i+1, j);
+		            //右後方pin
+		            return probabilityDetection(pins[i+1][j+1], i+1, j+1);
+				}
+				if ((j-1) > 0) {
+	                //左邊pin
+	                return probabilityDetection(pins[i][j-1], i, j-1);
+	            }
+	            if ((j+1) < i) {
+	                //右邊pin
+	                return probabilityDetection(pins[i][j+1], i, j+1);
+	            }
+			}
+		}
 	}
 
 	//移動
@@ -130,7 +158,7 @@ $(document).ready(function() {
 		return flag = true;
 	}
 
-	setInterval(draw, 10);
+	setInterval(draw, 20);
 });
 
 function test(score) {
@@ -140,7 +168,6 @@ function test(score) {
             type: "GET",
             dataType: "json",
             success: function(jdata){
-            	// console.log(jdata);
                 showScore(jdata);
                 isEnd(jdata);
             }
@@ -168,21 +195,31 @@ function isEnd(jdata) {
     if (jdata['endflag'] || jdata['roundcounter'] > 23) {
         setTimeout(function() {
             alert('遊戲結束!');
-            var name = prompt('請輸入你的名字');
-            if(name != "") {
-                $.ajax({
-                      url: "/bowling/game2/score",
-                      data: {Name: name,
-                             Score: $('#f10score').text()},
-                      type: "GET",
-                      dataType: "text",
-                      success: function(msg){
-                          location.href = "/bowling/game2";
-                          alert(msg);
-                      }
-                });
-            }
+            var name;
+            while(1) {
+            	name = prompt('請輸入你的名字');
+            	if(name == null) {
+            		location.href = "/bowling/game2";
+            		break;
+	            }else if(name == '') {
+	            	alert('請輸入姓名');
+	            }else {
+	            	$.ajax({
+	                      url: "/bowling/game2/score",
+	                      data: {Name: name,
+	                             Score: $('#f10score').text()},
+	                      type: "GET",
+	                      dataType: "text",
+	                      success: function(msg){
+	                          location.href = "/bowling/game2";
+	                          alert(msg);
+	                      }
+                	});
+                	break;	
+	            }
+            }   
         }, 100);
     }
 }
+
 

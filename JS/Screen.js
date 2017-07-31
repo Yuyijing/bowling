@@ -5,6 +5,15 @@ $(document).ready(function() {
 	    location.reload();
 	});
 
+	//使用按鈕輸入分數
+	for (var i = 0; i <= 10; i++) (function(i) {
+        $('#btn' + i).click(function() {
+            addscore(i);
+        })
+    })(i);
+
+
+    //遊戲畫面
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
 	var ballLength = 50;
@@ -70,7 +79,7 @@ $(document).ready(function() {
 	    //一輪結束
 	    if (y <= 0) {
 	    	flag = false;
-	    	test(score);
+	    	addscore(score);
 	    	x = canvas.width / 2;
 			y = canvas.height-60;
 	    	if (score == 10 || count == 2) {
@@ -161,7 +170,7 @@ $(document).ready(function() {
 	setInterval(draw, 20);
 });
 
-function test(score) {
+function addscore(score) {
     $.ajax({
             url: "/bowling/game2/start",
             data: {value: score},

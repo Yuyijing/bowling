@@ -21,22 +21,6 @@
         <strong class="ribbon-content">Bowling</strong>
     </h1>
 
-    <div class='panel-body'>
-        <div style="padding-bottom: 50px; font-size: 21px;">Enter Your Score</div>
-        <button id="btn0">0</button>
-        <button id="btn1">1</button>
-        <button id="btn2">2</button>
-        <button id="btn3">3</button>
-        <button id="btn4">4</button>
-        <button id="btn5">5</button>
-        <button id="btn6">6</button>
-        <button id="btn7">7</button>
-        <button id="btn8">8</button>
-        <button id="btn9">9</button>
-        <button id="btn10">10</button>
-    </div>
-
-  <!-- <button id="btnstar">star</button> -->
     <div class="bowlingTable">
     <P>
     <table border="1">
@@ -55,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr data-toggle="modal" data-target="#trModal">
           <td class="box1">0</td>
           <td class="box2">0</td>
           <td class="box3">0</td>
@@ -100,7 +84,7 @@
   <div style="text-align:center;">
         <button id="newgame">New Game</button>
         <button data-toggle="modal" data-target="#myModal">分數排名</button>
-        <!-- Modal -->
+        <!-- btnModal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -124,6 +108,34 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- trModal -->
+        <div class="modal fade" id="trModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Enter Your Score</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class='panel-body'>
+                            <button id="btn0" data-dismiss="modal">0</button>
+                            <button id="btn1" data-dismiss="modal">1</button>
+                            <button id="btn2" data-dismiss="modal">2</button>
+                            <button id="btn3" data-dismiss="modal">3</button>
+                            <button id="btn4" data-dismiss="modal">4</button>
+                            <button id="btn5" data-dismiss="modal">5</button>
+                            <button id="btn6" data-dismiss="modal">6</button>
+                            <button id="btn7" data-dismiss="modal">7</button>
+                            <button id="btn8" data-dismiss="modal">8</button>
+                            <button id="btn9" data-dismiss="modal">9</button>
+                            <button id="btn10" data-dismiss="modal">10</button>
+                        </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
